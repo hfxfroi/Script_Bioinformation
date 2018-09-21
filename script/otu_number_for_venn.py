@@ -7,7 +7,6 @@ Create on 2018.9.13
 '''
 
 import sys
-import numpy as np
 
 otu = sys.argv[1]
 
