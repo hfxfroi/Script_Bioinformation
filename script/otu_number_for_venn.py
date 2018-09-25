@@ -2,7 +2,7 @@
 '''
 Description：统计每个样本(或组)所含有的otu(除去0)
 
-Create on 2018.9.13
+Create on 2018.9.25
 @Author: houfeixiang
 '''
 
@@ -21,14 +21,14 @@ def main(otu):
 
         ob = [b.strip().split('\t') for b in o][1:]  # (除了表头)取出其它行
 
-        print(oa[1:-1])
+        print(oa[1:-1])  # 输出样本名称
 
         otu_one = []
         otu_all = []
 
         for i in range(sample_num):
             for ob_line in ob:
-                if int(ob_line[i+1]) > 0:
+                if float(ob_line[i+1]) > 0:
                     otu_one.append(ob_line[0])
             otu_all.append(otu_one)
             otu_one = []
@@ -37,22 +37,18 @@ def main(otu):
         length = []
         for i in range(sample_num):
             length.append(len(otu_all[i]))
-        max_num = max(length)  # 查看最长的长度
+        max_length = max(length)  # 查看最长的长度
         print(length)
-        print(max_num)
+        print(max_length)
 
         # 在每个列表后边补全空字符（因为转置的矩阵不能长短不一）
-        add_list = ['']
-        # add_list = add_list*3
-        add_list = add_list*(max_num - len(otu_all[0]))
-        # print(add_list)
-
+        add_list_kong = ['']
         for i in range(sample_num):
-            add_list = add_list*(max_num - len(otu_all[i]))
+            add_list = add_list_kong*(max_length - len(otu_all[i]))
             otu_all[i].extend(add_list)
         # print(otu_all)
 
-        # 将列表装置（几种方法）
+        # 将列表转置（几种方法）
         # otu_all = map(list, zip(*otu_all))
         # otu_all = list(zip(*otu_all))  # zip(*) 将所有输入的对象行转置为列
         otu_all = [list(row) for row in zip(*otu_all)]
